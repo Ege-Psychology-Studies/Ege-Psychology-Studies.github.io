@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ege Psychology Studies | Bilişsel, Nöropsikolojik ve Metodolojik Araştırmalar</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Merriweather for Academic Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        ege: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#082f49',
+                        },
+                        olive: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Flashcard 3D Flip Utilities */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans transition-colors duration-300 antialiased selection:bg-ege-500 selection:text-white">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-ege-600 to-teal-600 flex items-center justify-center text-white shadow-md shadow-ege-500/20 group-hover:scale-105 transition-transform">
+                    <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-serif font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">Ege Psychology Studies</span>
+                        <span class="hidden sm:inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-ege-100 text-ege-800 dark:bg-ege-900/60 dark:text-ege-200 border border-ege-200 dark:border-ege-700">30% EN / 70% TR</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Bornova, İzmir • Open Academic Collective</p>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+                <a href="#areas" class="hover:text-ege-600 dark:hover:text-ege-400 transition-colors">Çalışma Alanları</a>
+                <a href="#notes" class="hover:text-ege-600 dark:hover:text-ege-400 transition-colors">Makale & Notlar</a>
+                <a href="#interactive" class="hover:text-ege-600 dark:hover:text-ege-400 transition-colors">Flashcards & Quiz</a>
+                <a href="#github" class="hover:text-ege-600 dark:hover:text-ege-400 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="github" class="w-4 h-4"></i> GitHub & Open Science
+                </a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2">
+                <!-- Dark Mode Toggle -->
+                <button id="theme-toggle" aria-label="Temayı Değiştir" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <i data-lucide="moon" id="theme-icon-dark" class="w-5 h-5 hidden"></i>
+                    <i data-lucide="sun" id="theme-icon-light" class="w-5 h-5 hidden"></i>
+                </button>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" aria-label="Menü" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-3 pb-5 space-y-2">
+            <a href="#areas" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Araştırma & Çalışma Alanlarımız</a>
+            <a href="#notes" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Son Çalışmalar & Notlar</a>
+            <a href="#interactive" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800">İnteraktif Quiz & Flashcards</a>
+            <a href="#github" class="block px-3 py-2 rounded-lg text-sm font-medium text-ege-600 dark:text-ege-400 hover:bg-slate-100 dark:hover:bg-slate-800">GitHub Pages & Open Science</a>
+        </div>
+    </header>
+
+    <!-- 1. HERO SECTION -->
+    <section class="relative overflow-hidden py-16 sm:py-24 lg:py-28 border-b border-slate-200/80 dark:border-slate-800/80">
+        <!-- Decorative Background Grid -->
+        <div class="absolute inset-0 -z-10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:20px_20px] opacity-60"></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-ege-500/10 dark:bg-ege-500/5 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-teal-500/10 dark:bg-teal-500/5 rounded-full blur-3xl -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Column: Hero Text -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-ege-50 dark:bg-ege-900/40 border border-ege-200 dark:border-ege-800 text-ege-700 dark:text-ege-300 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                        <span>Bornova, İzmir • Biyopsikososyal & Ampirik Yaklaşım</span>
+                    </div>
+
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                        Ege Psychology <span class="text-transparent bg-clip-text bg-gradient-to-r from-ege-600 to-teal-500">Studies</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                        Biyolojik bilimler, <span class="font-medium text-slate-900 dark:text-white underline decoration-ege-500/40 decoration-2 underline-offset-4">clinical neuropsychology</span>, bilişsel süreçler (<span class="italic">cognitive processes</span>) ve psikolojik araştırma metodolojisi arasında köprü kuran açık erişimli öğrenci ve araştırmacı platformu.
+                    </p>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#notes" class="px-6 py-3.5 rounded-xl bg-ege-600 hover:bg-ege-700 text-white font-medium text-sm shadow-lg shadow-ege-600/25 flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                            Çalışma Notlarını İncele
+                        </a>
+                        <a href="#interactive" class="px-6 py-3.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium text-sm border border-slate-200 dark:border-slate-700 flex items-center gap-2 transition-all">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-teal-500"></i>
+                            Kendini Test Et (Quiz & Cards)
+                        </a>
+                    </div>
+
+                    <!-- Mini Academic Highlights -->
+                    <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200 dark:border-slate-800/80 max-w-lg">
+                        <div>
+                            <div class="text-2xl font-bold text-slate-900 dark:text-white">3 Ana Dal</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">Neuro, Cognitive & Stats</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-slate-900 dark:text-white">%30 İngilizce</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">Bilingual Terminoloji</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-slate-900 dark:text-white">Open Science</div>
+                            <div class="text-xs text-slate-500 dark:text-slate-400">GitHub Pages Uyumlu</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Visual Neural/Academic Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-xl">
+                        <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                            </div>
+                            <span class="text-xs font-mono text-slate-400">lab_synthesis_v2.4.psy</span>
+                        </div>
+
+                        <!-- Interactive Concept Matrix inside Hero -->
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+                                <div class="flex items-center justify-between text-xs font-semibold text-ege-600 dark:text-ege-400 mb-1">
+                                    <span>BIOLOGICAL & NEUROPSYCHOLOGY</span>
+                                    <span>BA 44/45 & 22</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-800 dark:text-slate-200">Broca & Wernicke Aphasia Dissociation</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Arcuate fasciculus bağlantısı, konuşma üretimi (<span class="italic">speech production</span>) ve dil anlama süreçlerinin nöroanatomik temelleri.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+                                <div class="flex items-center justify-between text-xs font-semibold text-teal-600 dark:text-teal-400 mb-1">
+                                    <span>COGNITIVE & EVOLUTIONARY</span>
+                                    <span>N ≈ 150</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-800 dark:text-slate-200">Social Brain Hypothesis & Heuristics</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Neokorteks hacmi ile sosyal grup büyüklüğü (Dunbar's number) arasındaki korelasyon ve bilişsel kısayollar.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+                                <div class="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
+                                    <span>PSYCHOLOGICAL STATISTICS</span>
+                                    <span>α = .05 | p &lt; .01</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-800 dark:text-slate-200">Parametric Assumptions & ANOVA</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Levene's Test for Equality of Variances, <span class="italic">Type I / Type II errors</span> ve gruplar arası varyans analizi.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                            <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-ege-500"></i> Kampüs Odaklı Akademik Arşiv</span>
+                            <span class="font-mono text-ege-600 dark:text-ege-400">APA 7th Ed.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. RESEARCH & STUDY AREAS (Araştırma ve Çalışma Alanlarımız) -->
+    <section id="areas" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="text-xs font-bold uppercase tracking-widest text-ege-600 dark:text-ege-400">Core Curriculum & Lab Pillars</span>
+            <h2 class="mt-2 font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Araştırma ve Çalışma Alanlarımız</h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+                Psikoloji lisans ve yüksek lisans çalışmalarında temel aldığımız üç ana disiplin: Biyolojik temeller, bilişsel/sosyal dinamikler ve metodolojik doğrulama.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Pillar 1: Clinical Neuropsychology & Neuroanatomy -->
+            <div class="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-7 shadow-sm hover:shadow-xl hover:border-ege-500/50 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-ege-50 dark:bg-ege-900/50 text-ege-600 dark:text-ege-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="activity" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-xs font-mono uppercase text-ege-600 dark:text-ege-400 font-semibold">Modül 01 • Biopsychology</span>
+                    <h3 class="mt-1 font-serif text-xl font-bold text-slate-900 dark:text-white">Clinical Neuropsychology & Neuroanatomy</h3>
+                    <p class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Merkezi sinir sisteminin yapısal ve işlevsel organizasyonu, kortikal lokalizasyon, nöroendokrin stres yanıtları ve hücresel destek mekanizmaları.
+                    </p>
+
+                    <ul class="mt-5 space-y-2.5 text-sm text-slate-700 dark:text-slate-300">
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-ege-500 shrink-0 mt-1"></i>
+                            <span><strong>Broca & Wernicke Alanları:</strong> Dil üretimi (<span class="italic">expressive</span>) ve anlama (<span class="italic">receptive</span>) afazileri.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-ege-500 shrink-0 mt-1"></i>
+                            <span><strong>Neuroglia Hücreleri:</strong> Astrocytes, Microglia (fagositoz), Oligodendrocytes & Schwann miyelinasyonu.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-ege-500 shrink-0 mt-1"></i>
+                            <span><strong>HPA Axis:</strong> Hypothalamic-Pituitary-Adrenal ekseni ve kronik kortizol regülasyonu.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-1.5">
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">Aphasia</span>
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">Glial Cells</span>
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">Cortisol</span>
+                </div>
+            </div>
+
+            <!-- Pillar 2: Cognitive & Social Psychology -->
+            <div class="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-7 shadow-sm hover:shadow-xl hover:border-teal-500/50 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/40 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-xs font-mono uppercase text-teal-600 dark:text-teal-400 font-semibold">Modül 02 • Mind & Society</span>
+                    <h3 class="mt-1 font-serif text-xl font-bold text-slate-900 dark:text-white">Cognitive & Social Psychology</h3>
+                    <p class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Bilgi işleme süreçleri, karar verme mekanizmaları, örtük bellek etkileri ve evrimsel perspektiften kişilerarası bağlanma dinamikleri.
+                    </p>
+
+                    <ul class="mt-5 space-y-2.5 text-sm text-slate-700 dark:text-slate-300">
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-teal-500 shrink-0 mt-1"></i>
+                            <span><strong>Heuristics & Biases:</strong> Temsililik (<span class="italic">representativeness</span>) ve bulunabilirlik (<span class="italic">availability</span>) kısayolları.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-teal-500 shrink-0 mt-1"></i>
+                            <span><strong>Cognitive Priming:</strong> Semantik ve duyuşsal hazırlama etkilerinin tepki süresine (<span class="italic">RT</span>) etkisi.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-teal-500 shrink-0 mt-1"></i>
+                            <span><strong>Social Brain & Attachment:</strong> Dunbar sayısı ve Bowlby/Ainsworth bağlanma stilleri.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-1.5">
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">System 1 & 2</span>
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">Priming</span>
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">Dunbar's Number</span>
+                </div>
+            </div>
+
+            <!-- Pillar 3: Psychological Statistics & Methodology -->
+            <div class="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-7 shadow-sm hover:shadow-xl hover:border-indigo-500/50 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-xs font-mono uppercase text-indigo-600 dark:text-indigo-400 font-semibold">Modül 03 • Quantitative Methods</span>
+                    <h3 class="mt-1 font-serif text-xl font-bold text-slate-900 dark:text-white">Psychological Statistics & Methodology</h3>
+                    <p class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Deneysel tasarım (<span class="italic">experimental design</span>), parametrik varsayım testleri, hipotez sınama ve etki büyüklüğü (<span class="italic">effect size</span>) hesaplamaları.
+                    </p>
+
+                    <ul class="mt-5 space-y-2.5 text-sm text-slate-700 dark:text-slate-300">
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500 shrink-0 mt-1"></i>
+                            <span><strong>t-Tests & ANOVA:</strong> Independent/Paired Samples t-test, One-Way ve Factorial ANOVA.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500 shrink-0 mt-1"></i>
+                            <span><strong>Homogeneity of Variance:</strong> Levene's Test, normallik dağılımı (Shapiro-Wilk) ve serbestlik derecesi (<span class="italic">df</span>).</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500 shrink-0 mt-1"></i>
+                            <span><strong>Hypothesis Testing:</strong> Null hypothesis ($H_0$) reddi, $p$-değeri, Cohen's $d$ ve $\eta^2$ (Eta-squared).</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-1.5">
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">F-Ratio</span>
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">Levene's Test</span>
+                    <span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">SPSS / R / JASP</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. FEATURED ARTICLES / STUDY NOTES (Son Çalışmalar & Notlar) -->
+    <section id="notes" class="py-20 bg-slate-100/70 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-ege-600 dark:text-ege-400">Open Access Study Notes</span>
+                    <h2 class="mt-2 font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Son Çalışmalar & Ders Notları</h2>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+                        Etiketlere tıklayarak konuları filtreleyebilir, özetleri ve metodolojik detayları okumak için kartları açabilirsiniz.
+                    </p>
+                </div>
+
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap gap-2" id="article-filters">
+                    <button data-filter="all" class="filter-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-ege-600 text-white shadow-sm transition-all">
+                        Tümü (6)
+                    </button>
+                    <button data-filter="neuro" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-ege-400 transition-all">
+                        Neuropsychology
+                    </button>
+                    <button data-filter="cognitive" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-ege-400 transition-all">
+                        Cognitive & Social
+                    </button>
+                    <button data-filter="stats" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-ege-400 transition-all">
+                        Statistics & Methods
+                    </button>
+                </div>
+            </div>
+
+            <!-- Articles Grid -->
+            <div id="articles-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. INTERACTIVE MINI QUIZ & FLASHCARDS -->
+    <section id="interactive" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400">Active Recall & Self-Testing</span>
+            <h2 class="mt-2 font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Psikoloji Öğrencileri İçin Mini Quiz & Flashcards</h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+                Vize ve final sınavlarına hazırlık için <span class="italic">Dunbar's Number</span>, <span class="italic">Levene's Test</span>, <span class="italic">Microglia</span> ve <span class="italic">Schachter-Singer</span> gibi temel kavramları interaktif olarak tekrar edin.
+            </p>
+
+            <!-- Mode Switcher Tabs -->
+            <div class="mt-6 inline-flex p-1.5 rounded-2xl bg-slate-200/80 dark:bg-slate-800 border border-slate-300/60 dark:border-slate-700">
+                <button id="tab-quiz-btn" onclick="switchInteractiveMode('quiz')" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm transition-all flex items-center gap-2">
+                    <i data-lucide="check-square" class="w-4 h-4 text-ege-600"></i>
+                    Çoktan Seçmeli Mini Quiz
+                </button>
+                <button id="tab-flashcard-btn" onclick="switchInteractiveMode('flashcard')" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2">
+                    <i data-lucide="layers" class="w-4 h-4 text-teal-600"></i>
+                    3D Kavram Kartları (Flashcards)
+                </button>
+            </div>
+        </div>
+
+        <!-- Mode A: Interactive Multiple Choice Quiz -->
+        <div id="quiz-container" class="max-w-3xl mx-auto">
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-lg">
+                <!-- Quiz Top Bar -->
+                <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100 dark:border-slate-800">
+                    <div>
+                        <span id="quiz-category-badge" class="text-xs font-mono uppercase px-2.5 py-1 rounded-md bg-ege-50 dark:bg-ege-900/50 text-ege-700 dark:text-ege-300 font-semibold">Cognitive & Social</span>
+                        <p id="quiz-progress-text" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Soru 1 / 5</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400 block">Skor</span>
+                        <span id="quiz-score-display" class="text-lg font-bold text-ege-600 dark:text-ege-400">0 Puan</span>
+                    </div>
+                </div>
+
+                <!-- Question Title -->
+                <h3 id="quiz-question" class="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-snug mb-6">
+                    Soru yükleniyor...
+                </h3>
+
+                <!-- Options List -->
+                <div id="quiz-options" class="space-y-3"></div>
+
+                <!-- Explanation Box (Hidden until answered) -->
+                <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-xl border text-sm leading-relaxed"></div>
+
+                <!-- Footer Controls -->
+                <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <button onclick="resetQuiz()" class="text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-1.5">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Sıfırla
+                    </button>
+                    <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="px-5 py-2.5 rounded-xl bg-ege-600 hover:bg-ege-700 text-white text-xs sm:text-sm font-semibold flex items-center gap-2 transition-colors">
+                        Sonraki Soru <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode B: 3D Flip Flashcards (Hidden initially) -->
+        <div id="flashcard-container" class="hidden max-w-2xl mx-auto">
+            <div class="perspective-1000">
+                <div id="flashcard-inner" onclick="flipFlashcard()" class="relative w-full h-80 sm:h-88 rounded-2xl cursor-pointer transition-transform duration-500 transform-style-3d shadow-lg">
+                    <!-- Front of Flashcard -->
+                    <div class="
+                        absolute inset-0 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 p-8 flex flex-col justify-between backface-hidden
+                    ">
+                        <div class="flex items-center justify-between">
+                            <span id="fc-tag" class="text-xs font-mono font-semibold uppercase px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300">TERİM / KAVRAM</span>
+                            <span id="fc-index" class="text-xs font-mono text-slate-400">1 / 6</span>
+                        </div>
+                        <div class="my-auto text-center">
+                            <h3 id="fc-front-title" class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Dunbar's Number</h3>
+                            <p id="fc-front-sub" class="mt-2 text-sm text-slate-500 dark:text-slate-400">Social Brain Hypothesis (N ≈ 150)</p>
+                        </div>
+                        <div class="text-center text-xs text-slate-400 flex items-center justify-center gap-1.5">
+                            <i data-lucide="repeat" class="w-3.5 h-3.5"></i> Kartı çevirmek için tıklayın
+                        </div>
+                    </div>
+
+                    <!-- Back of Flashcard -->
+                    <div class="
+                        absolute inset-0 rounded-2xl bg-gradient-to-br from-ege-800 to-slate-900 text-white p-8 flex flex-col justify-between backface-hidden rotate-y-180 border-2 border-ege-500/40
+                    ">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono uppercase tracking-wider text-ege-200">Akademik Açıklama</span>
+                            <i data-lucide="book-check" class="w-4 h-4 text-teal-400"></i>
+                        </div>
+                        <div class="my-auto">
+                            <p id="fc-back-desc" class="text-sm sm:text-base leading-relaxed text-slate-100"></p>
+                        </div>
+                        <div class="text-center text-xs text-ege-200/80">
+                            Ön yüze dönmek için tekrar tıklayın
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard Navigation Controls -->
+            <div class="mt-6 flex items-center justify-between">
+                <button onclick="prevFlashcard()" class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i> Önceki Kart
+                </button>
+                <button onclick="flipFlashcard()" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-medium flex items-center gap-2">
+                    <i data-lucide="rotate-cw" class="w-4 h-4"></i> Kartı Çevir
+                </button>
+                <button onclick="nextFlashcard()" class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2">
+                    Sonraki Kart <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. GITHUB REPOSITORY & OPEN SCIENCE SECTION -->
+    <section id="github" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-30"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-6 space-y-5">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-mono">
+                        <i data-lucide="git-branch" class="w-3.5 h-3.5"></i> Open Science & Reproducibility
+                    </div>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight">
+                        GitHub Pages & Açık Bilim Deposu
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Bu web sitesi tek bir <code class="px-1.5 py-0.5 rounded bg-slate-800 text-teal-300 font-mono text-xs">index.html</code> dosyasından oluşur ve doğrudan GitHub Pages üzerinde barındırılmak üzere tasarlanmıştır. Hazır <strong>README.md</strong> şablonunu kopyalayabilir veya kaynak dosyayı bilgisayarınıza indirebilirsiniz.
+                    </p>
+
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="copyReadmeTemplate()" class="px-5 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-slate-950 font-semibold text-sm flex items-center gap-2 transition-all shadow-lg shadow-teal-500/20">
+                            <i data-lucide="copy" class="w-4 h-4"></i>
+                            README.md Şablonunu Kopyala
+                        </button>
+                        <button onclick="downloadCurrentHtml()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm border border-slate-700 flex items-center gap-2 transition-all">
+                            <i data-lucide="download" class="w-4 h-4 text-ege-400"></i>
+                            index.html Dosyasını İndir
+                        </button>
+                    </div>
+
+                    <!-- Deployment Quick Steps -->
+                    <div class="pt-4 grid sm:grid-cols-3 gap-3 text-xs text-slate-300">
+                        <div class="p-3 rounded-xl bg-slate-800/70 border border-slate-700/80">
+                            <span class="font-mono text-teal-400 font-bold block mb-1">01. Repo Oluştur</span>
+                            <code class="text-[11px] text-slate-400">ege-psychology-studies</code> adıyla yeni bir GitHub deposu açın.
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-800/70 border border-slate-700/80">
+                            <span class="font-mono text-teal-400 font-bold block mb-1">02. Dosyayı Yükle</span>
+                            İndirdiğiniz <code class="text-[11px] text-slate-400">index.html</code> ve <code class="text-[11px] text-slate-400">README.md</code> dosyalarını ekleyin.
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-800/70 border border-slate-700/80">
+                            <span class="font-mono text-teal-400 font-bold block mb-1">03. Pages Aktifleştir</span>
+                            Settings → Pages altından <code class="text-[11px] text-slate-400">main / root</code> dalını seçip yayınlayın.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: README.md Live Preview Box -->
+                <div class="lg:col-span-6">
+                    <div class="rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden shadow-2xl">
+                        <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-xs font-mono text-slate-300">
+                                <i data-lucide="file-text" class="w-4 h-4 text-teal-400"></i>
+                                <span>README.md</span>
+                            </div>
+                            <button onclick="copyReadmeTemplate()" class="text-xs text-teal-400 hover:text-teal-300 font-mono flex items-center gap-1">
+                                <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i> Kopyala
+                            </button>
+                        </div>
+                        <pre id="readme-code" class="p-5 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed max-h-80"># 🧠 Ege Psychology Studies (Bornova, İzmir)
+
+Biyolojik bilimler, **Clinical Neuropsychology**, bilişsel süreçler (*Cognitive Processes*) ve psikolojik istatistik/metodoloji alanlarında açık erişimli ders notları ve araştırma özetleri sunan akademik web projesi.
+
+## 🔬 Araştırma ve Çalışma Alanlarımız
+1. **Clinical Neuropsychology & Neuroanatomy:** Broca/Wernicke alanları, Neuroglia (Microglia, Astrocytes), HPA Axis.
+2. **Cognitive & Social Psychology:** Heuristics & Biases, Priming, Social Brain Hypothesis (Dunbar's number), Attachment Theory.
+3. **Psychological Statistics & Methodology:** Independent/Paired t-tests, ANOVA, Levene's Test, Hypothesis Testing ($H_0$, $p$-value, Effect Size).
+
+## 🚀 GitHub Pages Kurulumu
+Bu proje sıfır bağımlılıkla tek bir `index.html` dosyası üzerinden çalışır:
+1. Depoyu klonlayın veya `index.html` dosyasını ana dizine yükleyin.
+2. **Settings &gt; Pages** menüsünden `main` branch'ini seçin.
+3. Siteniz saniyeler içinde yayında!
+
+## 📄 Lisans
+MIT License • Open Science Initiative (Bornova, İzmir)</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+            <div class="flex items-center gap-2">
+                <i data-lucide="brain-circuit" class="w-4 h-4 text-ege-600"></i>
+                <span class="font-semibold text-slate-800 dark:text-slate-200">Ege Psychology Studies</span>
+                <span>• Bornova, İzmir</span>
+            </div>
+            <div>
+                Akademik Açık Erişim Topluluğu (%30 English / %70 Türkçe Psikoloji Müfredatı Uyumlu)
+            </div>
+        </div>
+    </footer>
+
+    <!-- ARTICLE SUMMARY MODAL -->
+    <div id="article-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+        <div class="relative w-full max-w-2xl rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-start justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                    <span id="modal-badge" class="text-xs font-mono uppercase px-2.5 py-1 rounded-md bg-ege-100 dark:bg-ege-900/60 text-ege-700 dark:text-ege-300 font-semibold">Kategori</span>
+                    <h3 id="modal-title" class="mt-2 font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Makale Başlığı</h3>
+                </div>
+                <button onclick="closeArticleModal()" aria-label="Kapat" class="p-2 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700 text-xs font-mono text-slate-500 dark:text-slate-400 flex flex-wrap justify-between gap-2">
+                    <span id="modal-meta-author">Yazar / Çalışma Grubu</span>
+                    <span id="modal-meta-terms">Anahtar Terimler</span>
+                </div>
+                <div id="modal-body" class="space-y-3"></div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
+                <button onclick="closeArticleModal()" class="px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-xs sm:text-sm font-medium hover:bg-slate-800">
+                    Özeti Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT -->
+    <script>
+        // --- 1. DATA: FEATURED ARTICLES & STUDY NOTES ---
+        const articlesData = [
+            {
+                id: 1,
+                category: 'neuro',
+                categoryLabel: 'Neuropsychology',
+                title: 'Broca ve Wernicke Afazilerinde Nöroanatomik Dissosiyasyon ve Arcuate Fasciculus',
+                readTime: '6 dk okuma',
+                author: 'Klinik Nöropsikoloji Çalışma Grubu',
+                terms: 'BA 44/45, Superior Temporal Gyrus, Expressive & Receptive Aphasia',
+                excerpt: 'Sol inferior frontal girus (Broca) ve posterior superior temporal girus (Wernicke) lezyonlarının dil üretimi ve semantik işlemleme üzerindeki farklılaşan klinik tabloları.',
+                fullSummary: `
+                    <p><strong>Amaç ve Kapsam:</strong> Bu çalışma notu, dilin kortikal organizasyonunda klasik Geschwind-Wernicke modelini ve modern difüzyon tensör görüntüleme (DTI) bulgularını sentezlemektedir.</p>
+                    <p><strong>Klinik Bulgular:</strong> Sol hemisfer Brodmann 44 ve 45 (<em>pars opercularis</em> ve <em>pars triangularis</em>) hasarlarında hastalar dilbilgisel açıdan kesik, tutuk (<em>non-fluent</em>) konuşma sergilerken anlama becerileri görece korunur. Buna karşın Brodmann 22 (Wernicke alanı) lezyonlarında konuşma akıcı (<em>fluent</em>) ancak anlamsız neolojizmlerle (<em>word salad</em>) doludur ve işitsel dil anlama ciddi düzeyde bozulmuştur.</p>
+                    <p><strong>İletim Afazisi (Conduction Aphasia):</strong> İki merkezi birbirine bağlayan beyaz cevher yolu olan <em>Arcuate Fasciculus</em> hasarında ise hastanın anlaması ve akıcılığı korunurken, duyduğu kelimeleri tekrarlama (<em>repetition</em>) yetisi seçici olarak kaybolur.</p>
+                `
+            },
+            {
+                id: 2,
+                category: 'neuro',
+                categoryLabel: 'Neurobiology',
+                title: 'Nöroglia Hücreleri ve HPA Ekseninin Kronik Stres Altındaki Nöroimmün Etkileşimi',
+                readTime: '5 dk okuma',
+                author: 'Biyolojik Psikoloji & Sinirbilim Notları',
+                terms: 'Microglia, Astrocytes, HPA Axis, Glucocorticoids',
+                excerpt: 'Merkezi sinir sisteminin makrofajları olan mikrogliaların sinaptik budama (synaptic pruning) rolü ve uzun süreli kortizol maruziyetinin hipokampal nörogenez üzerindeki etkisi.',
+                fullSummary: `
+                    <p><strong>Glial Hücrelerin Rolü:</strong> Nöron dışı hücreler olan <em>Neuroglia</em> yalnızca yapısal destek sağlamaz; <strong>Astrositler</strong> kan-beyin bariyerini (BBB) ve sinaptik aralıktaki glutamat geri alımını düzenlerken, <strong>Mikroglia</strong> hücreleri merkezi sinir sisteminin birincil immün savunmasını ve fagositoz mekanizmasını yürütür.</p>
+                    <p><strong>HPA Axis Aktivasyonu:</strong> Stres anında Hipotalamus'tan salgılanan CRH, Ön Hipofiz'den ACTH salınımını tetikler; bu da Adrenal Korteks'ten glukokortikoid (insanda <em>cortisol</em>) salınımına yol açar.</p>
+                    <p><strong>Klinik Çıkarım:</strong> Kronik HPA aktivasyonu, mikrogliaları pro-inflamatuar faza geçirerek özellikle hipokampüsün CA3 ve dentat girus bölgelerinde dendritik atrofiye neden olur.</p>
+                `
+            },
+            {
+                id: 3,
+                category: 'cognitive',
+                categoryLabel: 'Cognitive & Social',
+                title: 'Social Brain Hypothesis: Neokorteks Hacmi ve Dunbar Sayısının Evrimsel Analizi',
+                readTime: '7 dk okuma',
+                author: 'Evrimsel ve Sosyal Psikoloji Semineri',
+                terms: 'Dunbar\'s Number (N≈150), Neocortex Ratio, Theory of Mind',
+                excerpt: 'Robin Dunbar’ın primatlarda neokorteks büyüklüğü ile kararlı sosyal grup hacmi arasında kurduğu nicel ilişki ve modern dijital ağlardaki yansımaları.',
+                fullSummary: `
+                    <p><strong>Teorik Çerçeve:</strong> Antropolog ve evrimsel psikolog Robin Dunbar tarafından ortaya atılan <em>Social Brain Hypothesis</em>, primat beyninin (özellikle neokorteks hacminin) ekolojik problem çözmeden ziyade karmaşık sosyal ilişkileri takip etme baskısıyla büyüdüğünü savunur.</p>
+                    <p><strong>Dunbar Sayısı (N ≈ 150):</strong> İnsan neokorteks oranı temel alındığında, bir bireyin karşılıklı güven, duygusal yakınlık ve sosyal geçmişini bilişsel olarak takip edebileceği maksimum istikrarlı sosyal ilişki sayısı ortalama 150'dir.</p>
+                    <p><strong>Bilişsel Sınırlar:</strong> 150 kişilik sınırın üzerindeki gruplarda sosyal kohezyonu korumak için hiyerarşik kurallar, normlar ve kurumsal yapılar zorunlu hale gelir.</p>
+                `
+            },
+            {
+                id: 4,
+                category: 'cognitive',
+                categoryLabel: 'Cognitive Psychology',
+                title: 'Bilişsel Kısayollar (Heuristics), Semantik Priming ve İki Faktörlü Duygu Kuramı',
+                readTime: '6 dk okuma',
+                author: 'Bilişsel Süreçler Laboratuvarı',
+                terms: 'Availability Heuristic, Semantic Priming, Schachter-Singer Theory',
+                excerpt: 'Kahneman & Tversky’nin karar verme yanlılıkları, örtük bellekte yayılan aktivasyon (spreading activation) ve fizyolojik uyarılmanın bilişsel etiketlenmesi.',
+                fullSummary: `
+                    <p><strong>Heuristics & Biases:</strong> İnsan zihni belirsizlik altında karar verirken algoritmik hesaplama yerine hızlı bilişsel kısayollar (<em>System 1</em>) kullanır. Örneğin <em>Availability Heuristic</em>, zihne kolay gelen örneklerin gerçekleşme olasılığının olduğundan yüksek tahmin edilmesine yol açar.</p>
+                    <p><strong>Semantic Priming:</strong> Öncül bir uyaranın (örn. "Doktor") hedef uyarana (örn. "Hemşire") verilen kelime karar süresini (<em>Lexical Decision Task RT</em>) hızlandırması, semantik ağlardaki yayılan aktivasyonu kanıtlar.</p>
+                    <p><strong>Schachter-Singer (Two-Factor Theory):</strong> Duygu deneyimi iki bileşene dayanır: Genel fizyolojik uyarılma (<em>physiological arousal</em>) ve bu uyarılmaya çevresel ipuçlarına göre atfedilen bilişsel etiket (<em>cognitive label</em>).</p>
+                `
+            },
+            {
+                id: 5,
+                category: 'stats',
+                categoryLabel: 'Statistics & Methods',
+                title: 'Parametrik Test Varsayımları: Levene Testi, t-Testleri ve Tek Yönlü ANOVA',
+                readTime: '8 dk okuma',
+                author: 'Psikolojik İstatistik & Metodoloji Notları',
+                terms: 'Levene\'s Test, Homoscedasticity, F-Ratio, Post-Hoc Tukey',
+                excerpt: 'Bağımsız örneklemler t-testi ve ANOVA öncesinde varyansların homojenliği (Levene) kontrolü, p > .05 yorumu ve Welch düzeltmesi.',
+                fullSummary: `
+                    <p><strong>Varyansların Homojenliği (Homogeneity of Variance):</strong> Independent Samples t-Test veya ANOVA yaparken grupların evren varyanslarının birbirine eşit olduğu ($\\sigma_1^2 = \\sigma_2^2$) varsayılır. Bu varsayım <strong>Levene's Test</strong> ile sınanır.</p>
+                    <p><strong>Kritik Yorumlama:</strong> Levene testinde $p > .05$ çıkması, gruplar arası varyans farkının anlamlı olmadığını, yani <em>varyansların homojen olduğunu</em> (varsayımın karşılandığını) gösterir. Eğer Levene $p < .05$ ise "Equal variances not assumed" satırı (Welch's t-test) raporlanır.</p>
+                    <p><strong>ANOVA F-Oranı:</strong> İkiden fazla grubun ortalamalarını karşılaştırırken Tip I hata ($\alpha$) şişmesini önlemek için ANOVA kullanılır: $F = \\text{MS}_{\\text{between}} / \\text{MS}_{\\text{within}}$.</p>
+                `
+            },
+            {
+                id: 6,
+                category: 'stats',
+                categoryLabel: 'Research Methods',
+                title: 'Hipotez Testlerinde Tip I / Tip II Hatalar, İstatistiksel Güç (Power) ve Etki Büyüklüğü',
+                readTime: '5 dk okuma',
+                author: 'Araştırma Yöntemleri Çalışma Grubu',
+                terms: 'Type I Error (α), Statistical Power (1-β), Cohen\'s d',
+                excerpt: 'Null hipotez anlamlılık testinin (NHST) sınırları, p-değerinin örneklem büyüklüğüne duyarlılığı ve APA 7 standartlarında Cohen’s d raporlaması.',
+                fullSummary: `
+                    <p><strong>Tip I ve Tip II Hata Dengesi:</strong> Gerçekte doğru olan bir sıfır hipotezini ($H_0$) reddetmek <strong>Tip I Hata ($\alpha$, False Positive)</strong>; gerçekte yanlış olan bir $H_0$ hipotezini reddedememek ise <strong>Tip II Hata ($\beta$, False Negative)</strong> olarak adlandırılır.</p>
+                    <p><strong>Etki Büyüklüğü (Effect Size):</strong> $p < .05$ bulgusu yalnızca etkinin şans eseri olup olmadığını söyler, etkinin pratik büyüklüğünü göstermez. Bu nedenle t-testleri için <strong>Cohen's $d$</strong> ($0.2$ küçük, $0.5$ orta, $0.8$ büyük), ANOVA için ise <strong>$\\eta^2$ (Eta-squared)</strong> mutlaka raporlanmalıdır.</p>
+                `
+            }
+        ];
+
+        // --- 2. DATA: INTERACTIVE QUIZ QUESTIONS ---
+        const quizQuestions = [
+            {
+                category: 'Evrimsel & Sosyal Psikoloji',
+                question: 'Robin Dunbar\'ın "Social Brain Hypothesis" kuramına göre, insan neokorteks hacminin bilişsel olarak sürdürebileceği istikrarlı sosyal grup büyüklüğü (Dunbar\'s Number) yaklaşık kaçtır?',
+                options: [
+                    'N ≈ 50 (Avcı-toplayıcı çekirdek klan boyutu)',
+                    'N ≈ 150 (Karşılıklı güven ve sosyal geçmişin takip edilebildiği sınır)',
+                    'N ≈ 500 (Modern kentsel mahalle ölçeği)',
+                    'N ≈ 7 ± 2 (Miller\'ın kısa süreli bellek kapasitesi sınırı)'
+                ],
+                correctIndex: 1,
+                explanation: 'Doğru! Dunbar\'s Number (N ≈ 150), primatlarda neokorteks oranı ile grup büyüklüğü arasındaki regresyon denkleminden türetilmiştir. 7 ± 2 ise George Miller\'ın çalışma belleği (working memory) uzamıdır.'
+            },
+            {
+                category: 'Psikolojik İstatistik (SPSS / JASP)',
+                question: 'Bağımsız Örneklemler t-Testi (Independent Samples t-Test) çıktısında "Levene\'s Test for Equality of Variances" değeri p = .34 olarak bulunmuştur. Araştırmacı nasıl ilerlemelidir?',
+                options: [
+                    'Varyanslar homojen değildir; non-parametrik Mann-Whitney U testine geçilmelidir.',
+                    'p > .05 olduğu için t-testi tamamen geçersizdir, analiz durdurulur.',
+                    'p > .05 olduğu için varyansların homojenliği varsayımı karşılanmıştır; "Equal variances assumed" satırı raporlanır.',
+                    'p > .05 olduğu için "Equal variances not assumed" (Welch düzeltmesi) satırı okunmalıdır.'
+                ],
+                correctIndex: 2,
+                explanation: 'Harika! Levene testinde H₀ hipotezi "grupların varyansları birbirine eşittir" der. p = .34 > .05 olduğundan H₀ reddedilemez, yani varyanslar homojendir ve standart birinci satır (Equal variances assumed) raporlanır.'
+            },
+            {
+                category: 'Klinik Nöroanatomi & Biyopsikoloji',
+                question: 'Merkezi sinir sisteminde (CNS) fagositoz yaparak hücresel atıkları temizleyen ve nöroimmün savunmadan birincil derecede sorumlu olan nöroglia hücresi hangisidir?',
+                options: [
+                    'Oligodendrocytes (Oligodendrositler)',
+                    'Schwann Cells (Schwann Hücreleri)',
+                    'Microglia (Mikroglia)',
+                    'Ependymal Cells (Epandim Hücreleri)'
+                ],
+                correctIndex: 2,
+                explanation: 'Doğru! Microglia hücreleri beynin yerleşik makrofajlarıdır; sinaptik budama (synaptic pruning) ve fagositoz yaparlar. Oligodendrositler CNS miyelinasyonundan, Schwann hücreleri ise PNS miyelinasyonundan sorumludur.'
+            },
+            {
+                category: 'Bilişsel & Duygu Psikolojisi',
+                question: 'Schachter ve Singer\'ın İki Faktörlü Duygu Kuramı\'na (Two-Factor Theory of Emotion) göre bir duygunun deneyimlenmesi için aşağıdakilerden hangisi gereklidir?',
+                options: [
+                    'Yalnızca otonom sinir sistemi uyarılması (kalp atışı artışı) duyguyu doğrudan başlatır.',
+                    'Fizyolojik uyarılma (arousal) + bu uyarılmaya çevresel bağlama göre verilen bilişsel etiket (cognitive label).',
+                    'Talamustan kortekse ve hipotalamusa aynı anda bağımsız sinyaller gönderilmesi.',
+                    'Yüz kaslarındaki proprioseptif geri bildirimin (facial feedback) amigdala tarafından okunması.'
+                ],
+                correctIndex: 1,
+                explanation: 'Kesinlikle! Schachter-Singer (1962) epinefrin deneyinde, fizyolojik uyarılmanın belirsiz olduğunda bireyin ortamdaki sosyal ipuçlarına bakarak uyarılmayı bilişsel olarak etiketlediğini (cognitive labeling) göstermiştir.'
+            },
+            {
+                category: 'Araştırma Metodolojisi',
+                question: 'Üç farklı terapi yönteminin (CBT, EMDR, Kontrol) depresyon puanları üzerindeki etkisini tek bir analizde karşılaştırmak isteyen bir araştırmacı, Tip I hata (α) oranını şişirmemek için hangi testi seçmelidir?',
+                options: [
+                    'Üç ayrı Independent Samples t-Test yapmalıdır.',
+                    'Paired Samples (Bağımlı Örneklemler) t-Test yapmalıdır.',
+                    'One-Way ANOVA (Tek Yönlü Varyans Analizi) uygulayıp anlamlı çıkarsa Post-Hoc test yapmalıdır.',
+                    'Pearson Korelasyon Analizi yapmalıdır.'
+                ],
+                correctIndex: 2,
+                explanation: 'Doğru! İkiden fazla bağımsız grup karşılaştırılırken çoklu t-testleri yapmak Familywise Error Rate (Tip I hata) olasılığını .05\'in üzerine çıkarır. Bu nedenle One-Way ANOVA tercih edilir.'
+            }
+        ];
+
+        // --- 3. DATA: 3D FLASHCARDS ---
+        const flashcardsData = [
+            {
+                tag: 'EVOLUTIONARY & SOCIAL',
+                title: "Dunbar's Number (N ≈ 150)",
+                sub: 'Social Brain Hypothesis • Robin Dunbar',
+                desc: 'Primatlarda neokorteks hacmi ile sosyal grup büyüklüğü arasındaki doğrusal ilişkiden türetilen bilişsel sınır. İnsan beyninin karşılıklı güven ve sosyal geçmişi takip edebileceği maksimum grup büyüklüğünü (~150 kişi) ifade eder.'
+            },
+            {
+                tag: 'PSYCHOLOGICAL STATISTICS',
+                title: "Levene's Test",
+                sub: 'Homogeneity of Variance (Homoscedasticity)',
+                desc: 'Bağımsız gruplar t-testi ve ANOVA öncesinde grupların varyanslarının eşit olup olmadığını sınayan testtir. p > .05 olması varyansların homojen olduğunu (varsayımın sağlandığını) gösterir.'
+            },
+            {
+                tag: 'NEUROBIOLOGY',
+                title: 'Microglia & Astrocytes',
+                sub: 'Central Nervous System Neuroglia',
+                desc: 'Mikroglialar MSS\'nin bağışıklık hücreleridir; fagositoz ve sinaptik budama (pruning) yaparlar. Astrositler ise kan-beyin bariyerini destekler ve sinaptik aralıktaki nörotransmitter/iyon dengesini korur.'
+            },
+            {
+                tag: 'EMOTION & COGNITION',
+                title: 'Schachter-Singer Theory',
+                sub: 'Two-Factor Theory of Emotion (1962)',
+                desc: 'Duygunun iki bileşenden oluştuğunu savunur: (1) Genel otonomik fizyolojik uyarılma (arousal) ve (2) çevresel ipuçlarına dayanarak bu uyarılmaya verilen bilişsel etiket (cognitive label).'
+            },
+            {
+                tag: 'CLINICAL NEUROPSYCHOLOGY',
+                title: 'Broca vs. Wernicke Aphasia',
+                sub: 'Cortical Language Localization',
+                desc: 'Broca afazisi (BA 44/45, sol inferior frontal) tutuk/kesik konuşma ama korunmuş anlama ile karakterizedir. Wernicke afazisi (BA 22, sol superior temporal) ise akıcı fakat anlamsız konuşma ve bozulmuş dil anlama ile seyreder.'
+            },
+            {
+                tag: 'PSYCHONEUROENDOCRINOLOGY',
+                title: 'HPA Axis',
+                sub: 'Hypothalamic-Pituitary-Adrenal Axis',
+                desc: 'Stres yanıtını yöneten nöroendokrin sistemdir: Hipotalamus (CRH) → Ön Hipofiz (ACTH) → Adrenal Korteks (Kortizol). Kronik aktivasyonu hipokampal atrofi ve bellek bozulmalarıyla ilişkilidir.'
+            }
+        ];
+
+        // --- 4. RENDER ARTICLES & FILTERING ---
+        function renderArticles(filter = 'all') {
+            const grid = document.getElementById('articles-grid');
+            const filtered = filter === 'all' ? articlesData : articlesData.filter(a => a.category === filter);
+
+            grid.innerHTML = filtered.map(article => `
+                <article class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-[11px] font-mono uppercase font-semibold px-2.5 py-1 rounded-md bg-ege-50 dark:bg-ege-900/50 text-ege-700 dark:text-ege-300">
+                                ${article.categoryLabel}
+                            </span>
+                            <span class="text-xs text-slate-400 flex items-center gap-1">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i> ${article.readTime}
+                            </span>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white leading-snug">
+                            ${article.title}
+                        </h3>
+                        <p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            ${article.excerpt}
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <span class="text-xs text-slate-500 dark:text-slate-400 truncate max-w-[65%]">${article.terms}</span>
+                        <button onclick="openArticleModal(${article.id})" class="text-xs font-semibold text-ege-600 dark:text-ege-400 hover:underline flex items-center gap-1 shrink-0">
+                            Özeti Oku <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // Filter Button Listeners
+        document.querySelectorAll('#article-filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#article-filters .filter-btn').forEach(b => {
+                    b.className = 'filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-ege-400 transition-all';
+                });
+                btn.className = 'filter-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-ege-600 text-white shadow-sm transition-all';
+                renderArticles(btn.dataset.filter);
+            });
+        });
+
+        // Modal Handlers
+        function openArticleModal(id) {
+            const article = articlesData.find(a => a.id === id);
+            if (!article) return;
+            document.getElementById('modal-badge').textContent = article.categoryLabel;
+            document.getElementById('modal-title').textContent = article.title;
+            document.getElementById('modal-meta-author').textContent = article.author;
+            document.getElementById('modal-meta-terms').textContent = article.terms;
+            document.getElementById('modal-body').innerHTML = article.fullSummary;
+
+            const modal = document.getElementById('article-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeArticleModal() {
+            const modal = document.getElementById('article-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Close modal on backdrop click
+        document.getElementById('article-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'article-modal') closeArticleModal();
+        });
+
+        // --- 5. QUIZ & FLASHCARD LOGIC ---
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            quizAnswered = false;
+
+            document.getElementById('quiz-category-badge').textContent = q.category;
+            document.getElementById('quiz-progress-text').textContent = `Soru ${currentQuizIndex + 1} / ${quizQuestions.length}`;
+            document.getElementById('quiz-score-display').textContent = `${quizScore} Puan`;
+            document.getElementById('quiz-question').textContent = q.question;
+
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.innerHTML = '';
+
+            const optionsEl = document.getElementById('quiz-options');
+            optionsEl.innerHTML = q.options.map((opt, idx) => `
+                <button onclick="selectQuizOption(${idx})" id="quiz-opt-${idx}" class="w-full text-left p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-ege-500 dark:hover:border-ege-500 bg-slate-50/70 dark:bg-slate-800/50 text-sm text-slate-800 dark:text-slate-200 transition-all flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                        ${String.fromCharCode(65 + idx)}
+                    </span>
+                    <span>${opt}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectQuizOption(selectedIndex) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizQuestions[currentQuizIndex];
+            const isCorrect = selectedIndex === q.correctIndex;
+            if (isCorrect) quizScore += 20;
+
+            document.getElementById('quiz-score-display').textContent = `${quizScore} Puan`;
+
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quiz-opt-${idx}`);
+                if (idx === q.correctIndex) {
+                    btn.className = 'w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/40 text-sm text-emerald-900 dark:text-emerald-200 font-medium flex items-start gap-3';
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.className = 'w-full text-left p-4 rounded-xl border-2 border-rose-500 bg-rose-50/80 dark:bg-rose-950/40 text-sm text-rose-900 dark:text-rose-200 flex items-start gap-3';
+                } else {
+                    btn.className = 'w-full text-left p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-50 text-sm text-slate-600 dark:text-slate-400 flex items-start gap-3';
+                }
+            });
+
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.remove('hidden');
+            feedbackEl.className = isCorrect
+                ? 'mt-6 p-4 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 text-sm leading-relaxed'
+                : 'mt-6 p-4 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50/60 dark:bg-amber-950/30 text-amber-900 dark:text-amber-200 text-sm leading-relaxed';
+            feedbackEl.innerHTML = `<strong>${isCorrect ? 'Doğru Yanıt!' : 'Açıklama:'}</strong> ${q.explanation}`;
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex = (currentQuizIndex + 1) % quizQuestions.length;
+            renderQuizQuestion();
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            renderQuizQuestion();
+            showToast('Quiz sıfırlandı. Başarılar!');
+        }
+
+        // Flashcard Logic
+        let currentFcIndex = 0;
+        let isFcFlipped = false;
+
+        function renderFlashcard() {
+            const fc = flashcardsData[currentFcIndex];
+            const inner = document.getElementById('flashcard-inner');
+            isFcFlipped = false;
+            inner.classList.remove('rotate-y-180');
+
+            document.getElementById('fc-tag').textContent = fc.tag;
+            document.getElementById('fc-index').textContent = `${currentFcIndex + 1} / ${flashcardsData.length}`;
+            document.getElementById('fc-front-title').textContent = fc.title;
+            document.getElementById('fc-front-sub').textContent = fc.sub;
+            document.getElementById('fc-back-desc').textContent = fc.desc;
+        }
+
+        function flipFlashcard() {
+            isFcFlipped = !isFcFlipped;
+            const inner = document.getElementById('flashcard-inner');
+            inner.classList.toggle('rotate-y-180', isFcFlipped);
+        }
+
+        function nextFlashcard() {
+            currentFcIndex = (currentFcIndex + 1) % flashcardsData.length;
+            renderFlashcard();
+        }
+
+        function prevFlashcard() {
+            currentFcIndex = (currentFcIndex - 1 + flashcardsData.length) % flashcardsData.length;
+            renderFlashcard();
+        }
+
+        function switchInteractiveMode(mode) {
+            const quizContainer = document.getElementById('quiz-container');
+            const fcContainer = document.getElementById('flashcard-container');
+            const quizBtn = document.getElementById('tab-quiz-btn');
+            const fcBtn = document.getElementById('tab-flashcard-btn');
+
+            if (mode === 'quiz') {
+                quizContainer.classList.remove('hidden');
+                fcContainer.classList.add('hidden');
+                quizBtn.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm transition-all flex items-center gap-2';
+                fcBtn.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2';
+            } else {
+                quizContainer.classList.add('hidden');
+                fcContainer.classList.remove('hidden');
+                fcBtn.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm transition-all flex items-center gap-2';
+                quizBtn.className = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all flex items-center gap-2';
+            }
+        }
+
+        // --- 6. GITHUB TOOLS: COPY README & DOWNLOAD HTML ---
+        function copyReadmeTemplate() {
+            const readmeText = document.getElementById('readme-code').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = readmeText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast('README.md şablonu panoya kopyalandı!');
+        }
+
+        function downloadCurrentHtml() {
+            const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('index.html dosyası indiriliyor...');
+        }
+
+        // Toast Helper (No alert() used)
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'px-4 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-semibold shadow-xl border border-slate-700 dark:border-slate-200 flex items-center gap-2 transition-all duration-300';
+            toast.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-teal-400 dark:text-teal-600"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- 7. THEME TOGGLE & INITIALIZATION ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-icon-dark');
+        const lightIcon = document.getElementById('theme-icon-light');
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('ege_psy_theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        updateThemeUI(savedTheme ? savedTheme === 'dark' : prefersDark);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isNowDark = !document.documentElement.classList.contains('dark');
+            localStorage.setItem('ege_psy_theme', isNowDark ? 'dark' : 'light');
+            updateThemeUI(isNowDark);
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Initial Boot
+        window.addEventListener('DOMContentLoaded', () => {
+            renderArticles('all');
+            renderQuizQuestion();
+            renderFlashcard();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
